@@ -22,7 +22,7 @@ enum EventCategory {
     SEMINAR
 }
 
-enum enums {
+enum EventStatus {
     PENDING,
     FORWARDED,
     APPROVED,
