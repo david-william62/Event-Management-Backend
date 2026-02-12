@@ -21,3 +21,12 @@ enum EventCategory {
     WORKSHOP,
     SEMINAR
 }
+
+enum EventStatus {
+    PENDING,
+    FORWARDED,
+    APPROVED,
+    REJECTED,
+    CANCELLED,
+    COMPLETED
+}
