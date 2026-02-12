@@ -13,3 +13,11 @@ enum OrgType {
     CLUB,
     SOCIETY
 }
+
+enum EventCategory {
+    TECHNICAL,
+    CULTURAL,
+    SPORTS,
+    WORKSHOP,
+    SEMINAR
+}
