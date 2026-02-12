@@ -58,7 +58,7 @@ public class Event {
   private Set<User> participants = new HashSet<>();
 
   @Column(nullable = false)
-  private EventStatus status;
+  private enums status;
 
   @Column(nullable = true)
   private String contactEmail;
