@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.college.eventmanagement.model.enums.EventCategory;
+import com.college.eventmanagement.model.enums.EventStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,7 +41,10 @@ public class Event {
   private String description;
 
   @Column(nullable = false)
-  private LocalDateTime dateTime;
+  private LocalDateTime startTime;
+
+  @Column(nullable = false)
+  private LocalDateTime endTime;
 
   @Column(nullable = false)
   private String venue;

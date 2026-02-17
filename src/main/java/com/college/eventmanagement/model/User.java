@@ -2,6 +2,9 @@ package com.college.eventmanagement.model;
 
 import java.time.LocalDateTime;
 
+import com.college.eventmanagement.model.enums.OrgType;
+import com.college.eventmanagement.model.enums.Role;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
