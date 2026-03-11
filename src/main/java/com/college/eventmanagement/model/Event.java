@@ -1,91 +1,86 @@
 package com.college.eventmanagement.model;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.college.eventmanagement.model.enums.EventCategory;
 import com.college.eventmanagement.model.enums.EventStatus;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "events")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Event {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
 
-  @Column(nullable = false)
-  private String title;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Column(nullable = false)
-  private String description;
+    @Column(nullable = false)
+    private String title;
 
-  @Column(nullable = false)
-  private LocalDateTime startTime;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String description;
 
-  @Column(nullable = false)
-  private LocalDateTime endTime;
+    @Column(nullable = false)
+    private LocalDateTime startTime;
 
-  @Column(nullable = false)
-  private String venue;
+    @Column(nullable = false)
+    private LocalDateTime endTime;
 
-  @Column(nullable = false)
-  private EventCategory category;
+    @Column(nullable = false)
+    private String venue;
 
-  @Column(nullable = false)
-  private LocalDateTime registrationEnd;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EventCategory category;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "organizer_id", nullable = false)
-  private User organizer;
+    @Column(nullable = false)
+    private LocalDateTime registrationEnd;
 
-  @ManyToMany
-  @JoinTable(name = "event_participants", joinColumns = @JoinColumn(name = "event_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-  private Set<User> participants = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "organizer_id", nullable = false)
+    private User organizer;
 
-  @Column(nullable = false)
-  private EventStatus status;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "organisation_id", nullable = false)
+    private Organisation organisation;
 
-  @Column(nullable = true)
-  private String contactEmail;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<EventRegistration> registrations = new ArrayList<>();
 
-  @Column(nullable = false)
-  private Integer maxParticipants;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private EventStatus status = EventStatus.DRAFT;
 
-  @Column(nullable = false)
-  private LocalDateTime createdAt;
+    @Column(nullable = true)
+    private String contactEmail;
 
-  @Column(nullable = false)
-  private LocalDateTime updatedAt;
+    @Column(nullable = false)
+    private Integer maxParticipants;
 
-  @PrePersist
-  protected void onCreate() {
-    createdAt = LocalDateTime.now();
-    updatedAt = LocalDateTime.now();
-  }
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-  @PreUpdate
-  protected void onUpdate() {
-    updatedAt = LocalDateTime.now();
-  }
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

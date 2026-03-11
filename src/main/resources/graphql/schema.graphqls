@@ -1,0 +1,114 @@
+type Query {
+    allEvents: [Event!]!
+    approvedEvents: [Event!]!
+    eventById(id: ID!): Event
+    myEvents: [Event!]!
+    
+    me: User!
+    userById(id: ID!): User
+    
+    allOrganisations: [Organisation!]!
+    organisationById(id: ID!): Organisation
+    
+    allColleges: [College!]!
+    collegeById(id: ID!): College
+    departmentsByCollege(collegeId: ID!): [Organisation!]!
+    
+    myDepartmentAnalytics: Analytics
+    collegeAnalytics: Analytics
+    
+    pendingApprovals: [User!]!
+}
+
+type Mutation {
+    approveEvent(id: ID!): Event!
+    rejectEvent(id: ID!): Event!
+    verifyUser(userId: ID!): User!
+}
+
+type Analytics {
+    totalEvents: Int!
+    approvedEvents: Int!
+    pendingEvents: Int!
+    completedEvents: Int!
+    totalParticipants: Int!
+}
+
+type College {
+    id: ID!
+    name: String!
+    address: String
+    city: String
+    isActive: Boolean!
+}
+
+type Event {
+    id: ID!
+    title: String!
+    description: String!
+    startTime: String!
+    endTime: String!
+    venue: String!
+    category: String!
+    registrationEnd: String!
+    status: String!
+    contactEmail: String
+    maxParticipants: Int!
+    participantCount: Int!
+    createdAt: String!
+    
+    organizer: User!
+    organisation: Organisation!
+    registrations: [EventRegistration!]!
+}
+
+type User {
+    id: ID!
+    email: String!
+    firstName: String!
+    lastName: String!
+    phone: String
+    role: String!
+    subRole: String!
+    isActive: Boolean!
+    isVerified: Boolean!
+    department: String
+    institution: String
+    collegeId: ID
+    collegeName: String
+    rollOrEmpNo: String
+    year: String
+    avatarColor: String
+    
+    orgMemberships: [OrgMembership!]!
+    managedMembers: [User!]!
+    eventsOrganised: Int!
+    eventsAttended: Int!
+    eventsUpcoming: Int!
+}
+
+type Organisation {
+    id: ID!
+    name: String!
+    orgType: String!
+    description: String
+    isActive: Boolean!
+    
+    memberships: [OrgMembership!]!
+}
+
+type OrgMembership {
+    id: ID!
+    user: User!
+    organisation: Organisation!
+    position: String!
+    joinedYear: String!
+    isActive: Boolean!
+}
+
+type EventRegistration {
+    id: ID!
+    user: User!
+    event: Event!
+    status: String!
+}

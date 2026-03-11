@@ -1,36 +1,34 @@
 package com.college.eventmanagement.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Table(name = "event_results",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"event_id", "participant_id"}))
+@Table(name = "colleges")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventResults {
+public class College {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "event_id", nullable = false)
-    private Event event;
+    @Column(nullable = false, unique = true)
+    private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "participant_id", nullable = false)
-    private User participant;
+    @Column(nullable = true)
+    private String address;
+
+    @Column(nullable = true)
+    private String city;
 
     @Column(nullable = false)
-    private Integer rank;
-
-    @Column(columnDefinition = "TEXT")
-    private String remarks;
+    @Builder.Default
+    private boolean isActive = true;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

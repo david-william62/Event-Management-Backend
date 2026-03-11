@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+.env
+.env*.local
+
+target/
+.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
